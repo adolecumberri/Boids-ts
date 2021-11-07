@@ -141,15 +141,14 @@ if (numBoids > maxBoids) {
     numBoids = minBoids;
 }
 
-// Set possible radii  based on screen size
-let radius;
+// Set possible radio  based on screen size
+let radius = size.width / 288;
 if (size.width / 288 > 5) {
     radius = 5;
 } else if (size.width / 288 < 3) {
     radius = 3;
-} else {
-    radius = size.width / 288;
 }
+
 let radiusCoefficients = [.5, .6, .7, .8, 1];
 
 // Boid Attributes
@@ -163,17 +162,15 @@ let colors = [
     '#f4e841',
     '#42ebf4'
 ];
-let diversity = 8;
+let diversity = colors.length;
 let quickness = 1;
 let introversion = .5;
 let racism = 0;
-let speedIndex;
+let speedIndex = size.width / 180;
 if (size.width / 160 < 5) {
     speedIndex = 5;
 } else if (size.width / 180 > 8) {
     speedIndex = 9;
-} else {
-    speedIndex = size.width / 180;
 }
 
 // Create Boids Array
@@ -195,8 +192,9 @@ function createBoids() {
         let radiusCoefficient = Math.floor(Math.random() * radiusCoefficients.length);
 
         // Generate random coords
-        let x = Math.ceil(Math.random() * (size.width - (radius * 2))) + (radius);
-        let y = Math.ceil(Math.random() * (size.height - (radius * 2))) + (radius);
+        let x = Math.ceil(Math.random() * (size.width - (radius * 2))) + (radius); //added radius to let them be inside bounds.
+        let y = Math.ceil(Math.random() * (size.height - (radius * 2))) + (radius); //added radius to let them be inside bounds.
+        
         // For subsequent boids, check for collisions and generate new coords if exist
         if (i !== 0) {
             for (let j = 0; j < boids.length; j++) {
