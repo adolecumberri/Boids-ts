@@ -58,7 +58,7 @@ let colors = [
 function animate() {
     ctx.clearRect(0, 0, canvas.width, canvas.getAttribute('height'));
     for (let boid of boids) {
-        boid.align(boids);
+        boid.flock(boids);
         boid.update();
         boid.show();
         
