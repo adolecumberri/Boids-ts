@@ -41,13 +41,16 @@ let colors = [
 
 (function setUp() {
 
-    //coeficiente seleccionado.
-    let radiusCoefficient = Math.floor(Math.random() * radiusCoefficients.length);
-    boids.push(new Boid({
-        radius: generalRadius,
-        radiusCoefficient,
-        color: randomColor(colors)
-    }));
+    for (let i = 0; i < 100; i++) {
+        //coeficiente seleccionado.
+        let radiusCoefficient = Math.floor(Math.random() * radiusCoefficients.length);
+        boids.push(new Boid({
+            radius: generalRadius,
+            radiusCoefficient,
+            color: randomColor(colors)
+        }));
+    }
+
 })();
 
 
@@ -55,7 +58,10 @@ let colors = [
 function animate() {
     ctx.clearRect(0, 0, canvas.width, canvas.getAttribute('height'));
     for (let boid of boids) {
+        boid.align(boids);
+        boid.update();
         boid.show();
+        
     }
     requestAnimationFrame(animate);
 
