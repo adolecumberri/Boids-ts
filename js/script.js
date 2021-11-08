@@ -29,17 +29,17 @@ let colors = [
     '#4286f4',
     '#f4416a',
     '#41f4a0',
-    '#f9f9f9',
+    '#ceff88',
     '#a341f4',
     '#f48341',
-    '#f4e841',
+    '#df9a88',
     '#42ebf4'
 ];
 
 
 
 
-(function setUp() {
+function setUp() {
 
     for (let i = 0; i < 100; i++) {
         //coeficiente seleccionado.
@@ -50,14 +50,15 @@ let colors = [
             color: randomColor(colors)
         }));
     }
-
-})();
+    animate();
+}
 
 
 
 function animate() {
     ctx.clearRect(0, 0, canvas.width, canvas.getAttribute('height'));
     for (let boid of boids) {
+        boid.edges();
         boid.flock(boids);
         boid.update();
         boid.show();
@@ -68,7 +69,7 @@ function animate() {
 }
 
 
-window.addEventListener('load', animate);
+window.addEventListener('load', setUp);
 
 
 
