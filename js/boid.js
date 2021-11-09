@@ -20,9 +20,17 @@ class Boid {
         this.acceleration = new Victor(0, 0);
         this.radius = radius * radiusCoefficients[radiusCoefficient];
         this.color = color;
-        this.maxForce = new Victor(0.01, 0.01);
+        this.maxForce = new Victor(1, 1);
         this.maxSpeed = 2;
+    }
 
+    toLimit(vector, limit) {
+      
+        return new Victor (
+            vector.x > limit ? limit: vector.x,
+            vector.y > limit ? limit: vector.y
+        );
+              
     }
 
     edges() {
@@ -54,7 +62,6 @@ class Boid {
             //si no es el elemento y 
             // esta dentro del rango de percepcion....
             if (other != this && distance < perceptionRadius) {
-                debugger;
                 //añado la direccion a un vector final
                 steering.add(other.velocity);
                 total++;
@@ -68,23 +75,67 @@ class Boid {
             steering.divide(new Victor(total, total));
             steering.setLength(this.maxSpeed);
             steering.subtract(this.velocity);
-            steering.limit(this.maxForce);
+            steering = this.toLimit(steering, this.maxForce);
         }
 
         return steering;
     }
 
+    //align boids with the others
+    cohesion(boids) {
+        // parametro de distancia
+        let neighborDist = 100;
+        // direccion nueva
+        let steering = new Victor(0, 0);
+        //contador
+        let total = 0;
+        for (let i = 0; i < boids.length; i++) {
+            //distancia acumulada
+            let dist = this.position.distance(boids[i].position);
+            if (dist > 0 && dist < neighborDist) {
+                // direccion acumulada
+                steering.add(boids[i].position);
+                total++;
+            }
+        }
+        if (total > 0) {
+            steering.divide(new Victor(total, total));
+            steering.subtract(this.position);
+            steering.setLength(this.maxSpeed);
+            steering.subtract(this.velocity);
+            steering = this.toLimit(steering, this.maxForce);
+        } 
+        
+        return steering;
+        
+    }
+
+
+   
 
     flock(boids) {
         let alignment = this.align(boids);
+        let cohesionData = this.cohesion(boids);
         this.acceleration = alignment;
+        this.acceleration.add(cohesionData);
+     
+
     }
 
 
     //actualiza los boids
     update() {
-        this.position.add(this.velocity);
-        this.velocity.add(this.acceleration);
+        this.position = this.position.add(this.velocity);
+    
+       
+        this.velocity = this.velocity.add(this.acceleration);
+       
+
+        this.velocity = this.toLimit(this.velocity, this.maxSpeed);
+
+
+
+
     }
 
     show() {
