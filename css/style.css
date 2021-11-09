@@ -23,7 +23,7 @@
   position: relative;
 }
 
-#boids {
+#p5Canvas {
   position: absolute;
   height: 100%;
   height: 100vh;
