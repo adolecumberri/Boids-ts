@@ -27,7 +27,7 @@ class Boid {
         // Speed & Velocity & Force
         this.maxSpeed = speedIndex * this.quickness;
         this.speed = this.maxSpeed * .5;
-        let radians = Math.PI * getRandomInt(-99, 100) / 100;
+        let radians = Math.PI * rand(100, -99) / 100;
         this.velocity = new Victor(this.speed * Math.cos(radians), this.speed * Math.sin(radians));
         //Force and Accel
         this.maxForce = .5;
@@ -340,7 +340,7 @@ class Boid {
 
         for (let i = 0; i < boids.length; i++) {
             if (this === boids[i]) { continue; }
-            if (getDistance(this.position.x, this.position.y, boids[i].position.x, boids[i].position.y) - (this.radius + boids[i].radius) < 0) {
+            if( this.position.distance(boids[i].position) - (this.radius + boids[i].radius) < 0) {
                 this.resolveCollision(this, boids[i]);
             }
         }
