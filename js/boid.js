@@ -3,18 +3,15 @@
 
 
 class Boid {
-    /**
-     * Contstruct Boid object
-     *
-     * @param  object | boid | Initial setup properties for boid
-     *
-     */
+   
+
     constructor(boid) {
 
         // Initial Properties
-        this.id = boid.id;
-        this.position = new Victor(boid.x, boid.y);
-        this.radius = boid.radius * radiusCoefficients[boid.radiusCoefficient];
+        this.id = boid.id; //
+        this.position = new Victor(boid.x, boid.y); //
+        // this.radius = boid.radius * radiusCoefficients[boid.radiusCoefficient]; //
+        this.radius = boid.radius //
         this.introversionCoefficient = boid.introversionCoefficient;
         this.introversion = boid.introversion * this.introversionCoefficient;
         this.quicknessCoefficient = boid.quicknessCoefficient;
@@ -34,13 +31,9 @@ class Boid {
 
     }
 
-    /**
-     * Calculate the seek force for a boid and a target
-     *
-     * @param  object | target | The Victor.js vector for a target's position
-     * @return object | The seek force for the target as a vector
-     */
+
     seek(target) {
+        //un vector.
         let targetposition = target.clone();
         let diff = targetposition.subtract(this.position);
         let desired = new Victor(diff.x, diff.y);
@@ -61,12 +54,7 @@ class Boid {
         return desired;
     }
 
-    /**
-     * Calculate the separation force for a boid and its flock
-     *
-     * @param  array | boids | The boids array containing all the boids
-     * @return object | The Separation force as a Victor vector
-     */
+
     separate(boids) {
         let sum = new Victor();
         let count = 0;
@@ -126,12 +114,7 @@ class Boid {
         }
     }
 
-    /**
-     * Calculate the cohesion force for a boid and its flock
-     *
-     * @param  array | boids | The boids array containing all the boids
-     * @return object | The cohesion force as a Victor vector
-     */
+  
     cohesion(boids) {
         let neighborDist = 50;
         let sum = new Victor();
@@ -151,13 +134,10 @@ class Boid {
         }
     }
 
-    /**
-     * Avoid the canvas walls if walls are enabled
-     *
-     * @return object/boolean | The seek force to avoid a wall, or false if not near a wall
-     */
+ 
     avoidWalls() {
 
+        //si es un movil, meto menos distancia.
         let buffer = mobile ? 5 : 15;
 
         if (this.distanceFromHorWall() < this.radius * buffer || this.distanceFromVertWall() < this.radius * buffer) {
@@ -166,10 +146,7 @@ class Boid {
 
     }
 
-    /**
-     * Run force calculation functions for the boid, then apply forces
-     *
-     */
+  
     flock() {
 
         // Get Forces

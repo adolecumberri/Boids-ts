@@ -10,7 +10,7 @@ function createBoids() {
         let introversionCoefficient = getCoefficient() / 120;
         let quicknessCoefficient = getQuicknessCoefficient() / 150;
         let racismCoefficient = getCoefficient() / 100;
-        let radiusCoefficient = Math.floor(Math.random() * radiusCoefficients.length);
+        // let radiusCoefficient = Math.floor(Math.random() * radiusCoefficients.length);
 
         // Generate random coords
         let x = Math.ceil(Math.random() * (size.width - (radius * 2))) + (radius); //added radius to let them be inside bounds.
@@ -34,7 +34,7 @@ function createBoids() {
             y: y,
             speedIndex: speedIndex,
             radius: radius,
-            radiusCoefficient: radiusCoefficient,
+            // radiusCoefficient: radiusCoefficient,
             quickness: quickness,
             quicknessCoefficient: quicknessCoefficient,
             color: colors[1],

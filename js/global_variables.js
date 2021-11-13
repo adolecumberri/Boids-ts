@@ -42,15 +42,15 @@ if (numBoids > maxBoids) {
 }
 
 // Set possible radio  based on screen size
-let radius = size.width / 400;
-if (size.width / 450 > 7) {
-    radius = 7;
-} else if (size.width / 400 < 5) {
-    radius = 5;
+let radius = size.width / 700;
+if (size.width / 700 > 4) {
+    radius = 4;
+} else if (size.width / 700 < 2) {
+    radius = 2;
 }
 
 //coeficientes de radio que se le añade a los Boids para que tengan variacion de tamaño.
-let radiusCoefficients = [.5, .6, .7, .3, .4];
+// let radiusCoefficients = [.5, .6, .7, .3, .4];
 
 // colores a seleccionar.
 let colors = [
