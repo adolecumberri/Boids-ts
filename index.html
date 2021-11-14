@@ -1,26 +1,42 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
+
 <head>
-	<meta charset="utf-8">
-	<title>BOIDS!</title>
-	<link rel="stylesheet" href="css/style.css">
-	<!--[if IE]>
-		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-	<![endif]-->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Boids-ts</title>
+
+  <style>
+    body,
+    html {
+      margin: 0;
+      overflow: hidden;
+      height: 100%;
+      font-size: 14px;
+      -webkit-tap-highlight-color: transparent;
+      font-family: monospace;
+    }
+
+    .title {
+      position: fixed;
+      left: 100px;
+      top: 100px;
+      max-width: 300px;
+    }
+  </style>
 </head>
 
-<body id="home">
-
-  <div id="boids-container">
-    <canvas id="boids"></canvas>
-
-	</div>
-	<script src="js/victor.min.js"></script>
-  
-  <script src="js/boid.js"></script>
-  
-<script src="js/global_variables.js"></script>
-<script src="js/help_functions.js"></script>
-  <script src="js/script.js"></script>
+<body>
+  <div class="canvas-container"></div>
+  <div class="title">
+    <p>Boids simulation, ported from Daniel Schiffman. Originally inspired from Craig Reynolds'
+      <a href="http://en.wikipedia.org/wiki/Boids" target="_black">Boids</a> algorithm.
+    </p>
+    <p>Implemented with vanilla canvas, gl-vec2 and
+      typescript.</p>
+  </div>
+  <script src="/demo.56710ae6.js"></script>
 </body>
+
 </html>
