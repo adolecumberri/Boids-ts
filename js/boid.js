@@ -84,12 +84,7 @@ class Boid {
         return sum;
     }
 
-    /**
-     * Calculate the alignment force for a boid and its flock
-     *
-     * @param  array | boids | The boids array containing all the boids
-     * @return object | The alignment force as a Victor vector
-     */
+    //alinea lo boids, unos con otros respecto a una media.
     align(boids) {
         let neighborDist = 50;
         let sum = new Victor();
@@ -114,7 +109,7 @@ class Boid {
         }
     }
 
-  
+    //separa los boids.
     cohesion(boids) {
         let neighborDist = 50;
         let sum = new Victor();
@@ -158,28 +153,22 @@ class Boid {
         let avoidWallsForce = walls ? this.avoidWalls() : undefined;
 
         // Weight Forces
-        let alignWeight = 1.2;
-        let mouseWeight = mouseSeek ? 0.2 : undefined;
+        // let alignWeight = 1.2;
+        // let mouseWeight = mouseSeek ? 0.2 : undefined;
         let separateWeight = 1;
         let cohesionWeight = 1;
         let avoidWallsWeight = walls ? 1.2 : undefined;
 
 
         // Apply forces
-        this.applyForce(alignForce, alignWeight);
-        if (mouseSeek) this.applyForce(mouseForce, mouseWeight);
+        // this.applyForce(alignForce, alignWeight);
+        // if (mouseSeek) this.applyForce(mouseForce, mouseWeight);
         this.applyForce(separateForce, separateWeight);
         this.applyForce(cohesionForce, cohesionWeight);
         if (walls && avoidWallsForce) this.applyForce(avoidWallsForce, avoidWallsWeight);
 
     }
 
-    /**
-     * Apply a coefficient to a given force and apply it to the boid
-     *
-     * @param object | force | The Victor vector of the force to be applied
-     * @param float | coefficient | The factor to be applied to the force
-     */
     applyForce(force, coefficient) {
         if (!coefficient) { let coefficient = 1; }
         force.multiply({ x: coefficient, y: coefficient });
@@ -187,10 +176,7 @@ class Boid {
         this.velocity.limitMagnitude(this.maxSpeed);
     }
 
-    /**
-     * Run the flock function and update the boid's position based on the resulting velocity
-     *
-     */
+
     nextPosition() {
 
         // Loop through behaviors to apply forces
@@ -207,10 +193,6 @@ class Boid {
 
     }
 
-    /**
-     * Check for edge crossings and bounce the boid or wrap it to the other side of the canvas
-     *
-     */
     edgeCheck() {
         if (walls) {
             this.wallBounce();
@@ -219,10 +201,6 @@ class Boid {
         }
     }
 
-    /**
-     * If the boid passes a border with no walls, wrap the boid to the other side of the canvas
-     *
-     */
     borderWrap() {
         if (this.position.x < 0) {
             this.position.x = document.body.clientWidth;
@@ -236,10 +214,7 @@ class Boid {
         }
     }
 
-    /**
-     * Detect a wall hit and bounce boid
-     *
-     */
+  
     wallBounce() {
         if (this.position.x <= this.radius) {
             this.position.x = this.radius;
@@ -259,11 +234,7 @@ class Boid {
         }
     }
 
-    /**
-     * Calculate the distance from vertical wall in the direction of the boid's velocity
-     *
-     * @param float | the boid's distance from the wall
-     */
+  
     distanceFromVertWall() {
         if (this.velocity.x > 0) {
             return document.body.clientWidth - (this.position.x);
@@ -273,11 +244,7 @@ class Boid {
 
     }
 
-    /**
-     * Calculate the distance from horizontal wall in the direction of the boid's velocity
-     *
-     * @param float | the boid's distance from the wall
-     */
+
     distanceFromHorWall() {
         if (this.velocity.y > 0) {
             return document.body.clientHeight - (this.position.y);
@@ -286,10 +253,7 @@ class Boid {
         }
     }
 
-    /**
-     * Draw Boid to the canvas
-     *
-     */
+
     draw() {
         c.beginPath();
         c.arc(this.position.x, this.position.y, this.radius, 0, Math.PI * 2, false);
@@ -298,10 +262,7 @@ class Boid {
         c.closePath();
     }
 
-    /**
-     * Update a boid's position and call draw()
-     *
-     */
+
     update() {
 
         this.nextPosition();
@@ -309,10 +270,7 @@ class Boid {
 
     }
 
-    /**
-     * Detect collisions between boids and resolve
-     *
-     */
+  
     detectCollision() {
 
         for (let i = 0; i < boids.length; i++) {
@@ -323,14 +281,7 @@ class Boid {
         }
     }
 
-    /**
-     * Rotates coordinate system for velocities
-     * Takes velocities and alters them as if the coordinate system they're on was rotated
-     *
-     * @param  object | velocity | The velocity of an individual boid
-     * @param  float  | angle    | The angle of collision between two objects in radians
-     * @return object | The altered x and y velocities after the coordinate system has been rotated
-     */
+  
     rotate(velocity, angle) {
         return {
             x: velocity.x * Math.cos(angle) - velocity.y * Math.sin(angle),
@@ -338,13 +289,6 @@ class Boid {
         };
     }
 
-    /**
-     * Swaps out two colliding boids' x and y velocities after running through
-     * an elastic collision reaction equation
-     *
-     * @param  object | boid      | A boid object
-     * @param  object | otherBoid | A boid object
-     */
     resolveCollision(boid, otherBoid) {
 
         let xVelocityDiff = boid.velocity.x - otherBoid.velocity.x;
