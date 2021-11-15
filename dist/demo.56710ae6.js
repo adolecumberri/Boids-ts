@@ -1529,33 +1529,35 @@ var _glVec2Utils = require("../gl-vec2-utils");
 
 var _drawUtils = require("./draw-utils");
 
-var divCount = document.getElementById("flame-count"); //para los FPS
+var fpsCount = document.getElementById("flame-count");
+var boidsCount = document.getElementById("boids-number");
+var trailChecker = document.getElementById("trail-check"); //para los FPS
 
 var lastLoop = new Date().getTime();
 var fps = 0;
 var flock;
 var w = 0;
 var h = 0;
+var trail = false; //tienen "cola" los boids?
+
 var randomGenerator = (0, _randomSeed.create)('dudee');
 var random = randomGenerator.floatBetween;
-var CANVAS_WITH_1 = false;
 var scale = window.devicePixelRatio || 1;
 exports.scale = scale;
-var normalizationConst = CANVAS_WITH_1 ? 600 : 1;
 
 function getBoidOpts(canvasWidth, canvasHeight) {
   return {
     center: [canvasWidth / 2, canvasHeight / 2],
     canvasSize: [canvasWidth, canvasHeight],
-    velocity: (0, _glVec.set)((0, _glVec.create)(), random(-1, 1) / normalizationConst, random(-1, 1) / normalizationConst),
-    r: 3 / normalizationConst,
-    maxspeed: 3 / normalizationConst,
-    maxforce: 0.05 / normalizationConst,
+    velocity: (0, _glVec.set)((0, _glVec.create)(), random(-1, 1) / 1.5, random(-1, 1) / 1.5),
+    r: 3,
+    maxspeed: 2 / 1.3,
+    maxforce: 0.05,
     separationScale: 1.5,
     alignScale: 1.0,
     cohesionScale: 1.0,
-    desiredSeparation: 25 / normalizationConst,
-    neighborDistance: 50 / normalizationConst
+    desiredSeparation: 25,
+    neighborDistance: 50
   };
 }
 
@@ -1563,8 +1565,12 @@ var loadFps = function loadFps() {
   var thisLoop = new Date().getTime();
   fps = Math.floor(1000 / (thisLoop - lastLoop));
   lastLoop = thisLoop;
-  divCount.innerHTML = "" + fps;
+  fpsCount.innerHTML = fps + " fps";
   return fps;
+};
+
+var loadBoidsCounter = function loadBoidsCounter() {
+  boidsCount.innerHTML = flock.boids.length + " boids";
 };
 
 function createScene(context, width, height) {
@@ -1582,10 +1588,7 @@ function createScene(context, width, height) {
     target = [ev.pageX * scale, ev.pageY * scale]; // document.addEventListener("mousemove", onMouseMove);
 
     document.addEventListener("mouseup", onMouseUp);
-  }; // const onMouseMove = (ev: MouseEvent) => {
-  //   target = [ev.pageX * scale, ev.pageY * scale];
-  // }
-
+  };
 
   var onMouseUp = function onMouseUp(ev) {
     target = null; // document.removeEventListener("mousemove", onMouseMove);
@@ -1594,23 +1597,32 @@ function createScene(context, width, height) {
   };
 
   document.addEventListener('mousedown', onMouseDown);
+
+  var trailChanged = function trailChanged() {
+    console.log("changed");
+    trail = !trail;
+  };
+
+  console.log(trailChecker);
+  trailChecker.addEventListener("change", trailChanged);
   var boidSizeRatio = 0.5; //
 
   var targetSide = 100; //tamaño del target.
 
+  var boidColor = trail ? "#f5f5dc2a" : "#f5f5dc";
+
   function loop() {
     flock.run(target); // context.clearRect(0, 0, width, height)
 
-    context.fillStyle = "#f5f5dc2a";
+    context.fillStyle = trail ? "#f5f5dc2a" : "#f5f5dc";
 
     if (target) {
-      context.strokeRect(target[0] - targetSide / 2, target[1] - targetSide / 2, targetSide, targetSide); // context.fillStyle = "#f5f5dc";
+      context.strokeRect(target[0] - targetSide / 2, target[1] - targetSide / 2, targetSide, targetSide); // context.fillStyle = "black";
     }
 
-    context.fillRect(0, 0, width, height);
-    context.fillStyle = 'black';
-    context.strokeStyle = 'black';
-    loadFps();
+    context.fillRect(0, 0, width, height); // context.fillStyle = 'black'
+
+    context.strokeStyle = 'black'; // loadFps();
 
     for (var i = 0; i < flock.boids.length; ++i) {
       var boid = flock.boids[i];
@@ -1626,11 +1638,12 @@ function createScene(context, width, height) {
   requestAnimationFrame(loop);
 }
 
-setInterval(function () {
-  if (fps > 100) {
-    // for(let i = 0; i < 5; i++){
+var intervalId = setInterval(function () {
+  if (flock.boids.length < 300) {
     var b = new _Boid.Boid(getBoidOpts(w, h));
-    flock.addBoid(b); // }
+    flock.addBoid(b);
+    loadBoidsCounter();
+  } else {// clearInterval(intervalId);
   }
 }, 250);
 },{"../Flock":"../Flock.ts","../Boid":"../Boid.ts","random-seed":"../../node_modules/random-seed/index.js","gl-vec2":"../../node_modules/gl-vec2/index.js","../gl-vec2-utils":"../gl-vec2-utils.ts","./draw-utils":"draw-utils.ts"}],"demo.ts":[function(require,module,exports) {
@@ -1701,7 +1714,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59984" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50941" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

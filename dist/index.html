@@ -22,6 +22,11 @@
       left: 100px;
       top: 100px;
       max-width: 300px;
+    }
+
+    #trail-label{
+    box-sizing: border-box;
+    margin: 3px 3px 3px 4px;
     }</style>
 </head>
 
@@ -30,11 +35,21 @@
   <div class="title">
     <p>Boids simulation, ported from Daniel Schiffman. Originally inspired from Craig Reynolds'
       <a href="http://en.wikipedia.org/wiki/Boids" target="_black">Boids</a> algorithm.
+      Based on <a href="https://github.com/shiffman/boids-ts" target"_black"=""> this </a> shiffman repo.
     </p>
-    <p>Implemented with vanilla canvas, gl-vec2 and
+    <p>Implemented with: <br>
+      vanilla canvas <br>
+      gl-vec2 and <br>
       typescript.</p>
+
+
+      
+      <p>
+        <label for="trail-check" id="trail-label"> Trail: <input id="trail-check" type="checkbox">
+      </label></p>
       <div id="flame-count">
       </div>
+      <div id="boids-number"></div>
   </div>
   <script src="/demo.56710ae6.js"></script>
 </body>
