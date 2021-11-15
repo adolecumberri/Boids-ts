@@ -1,17 +1,27 @@
-# boids-js
+# boids-ts
 
 > Flock simulation and boids
 
+[![screen](screen.png)](http://nkint.github.io/boids-ts/)
 
+[(demo)](http://nkint.github.io/boids-ts/)
 
-Flock simulation with _canvas_ and _gl-vec2_ 
+<!-- iframe: http://nkint.github.io/boids-ts/index.html -->
+
+Flock simulation with _canvas_, _gl-vec2_ and _typescript_.
+
+Code is not optimized but slavishly ported from Nature of Code ([chapter 6](https://natureofcode.com/book/chapter-6-autonomous-agents/)).
+Go Daniel Shiffman, go!
 
 For the original code see here:
 
 - https://github.com/shiffman/The-Nature-of-Code-Examples-p5.js/tree/master/chp06_agents/NOC_6_09_Flocking
 - https://github.com/shiffman/The-Nature-of-Code-Examples-p5.js/tree/master/chp06_agents/NOC_6_02_Arrive
 
-<!-- 
+For a - maybe better, less OOP, more optimized - boid package see [hughsk boid](https://github.com/hughsk/boids)
+
+## Example
+
 ```js
 import { Flock, Boids, heading } from 'boid-ts'
 
@@ -65,5 +75,8 @@ function loop() {
   requestAnimationFrame(loop)
 }
 requestAnimationFrame(loop)
-``` -->
+```
 
+## License
+
+MIT © [nkint](https://github.com/nkint)
